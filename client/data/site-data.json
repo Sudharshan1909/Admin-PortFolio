@@ -1,0 +1,96 @@
+{
+  "profile": {
+    "name": "Sudharshan K",
+    "role": "B.E Computer Science and Engineering",
+    "location": "India",
+    "email": "you@example.com",
+    "summary": "I build modern web applications with clean UI, reliable backend systems, and strong attention to performance.",
+    "image": "/uploads/1782041277678-10e5per91agr.jpg",
+    "contactLinks": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/yourusername"
+      },
+      {
+        "label": "LinkedIn",
+        "url": "https://linkedin.com/in/yourusername"
+      }
+    ]
+  },
+  "skills": {
+    "technical": [
+      "cdss",
+      "dfsv",
+      "rvrsv",
+      "rvrsvr",
+      "tgtbtsh"
+    ],
+    "soft": [
+      "hmlfvv",
+      "jango",
+      "kingkong"
+    ]
+  },
+  "careerEducation": [
+    {
+      "institution": "Jeppiaar Engineering College",
+      "degree": "B.Tech. Computer Science and Engineering",
+      "from": "2020-08",
+      "to": "2024-05",
+      "cgpa": "9.0"
+    },
+    {
+      "institution": "IIT Madras",
+      "degree": "B.E. Information Science and Engineering",
+      "from": "2026-02",
+      "to": "2028-10",
+      "cgpa": "7.95"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Zoho",
+      "location": "On-site",
+      "employmentType": "Contract Based",
+      "role": "Frontend Developer Intern",
+      "duration": "11 months",
+      "description": "Built responsive UI components and contributed to internal web features."
+    },
+    {
+      "company": "Google",
+      "location": "Remote",
+      "employmentType": "Intern",
+      "role": "Cloud Engineering Intern",
+      "duration": "1 yr 10months",
+      "description": "best knowledge about cloud"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Habit Tracking",
+      "demoText": "",
+      "link": "https://habitbloom-growth-guide.lovable.app",
+      "description": "my habit tracker"
+    },
+    {
+      "title": "Portfolio",
+      "demoText": "",
+      "link": "https://google.com",
+      "description": "my portfolio"
+    },
+    {
+      "title": "python projects",
+      "demoText": "",
+      "link": "https://netmirror.com",
+      "description": "tools: frontend,backend and database"
+    }
+  ],
+  "certificates": [
+    {
+      "organization": "infosys",
+      "title": "aiml",
+      "link": "https://google.com",
+      "issueId": ""
+    }
+  ]
+}

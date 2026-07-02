@@ -1,0 +1,31 @@
+import { NextRequest, NextResponse } from "next/server";
+import dbConnect from "@/lib/dbConnect";
+import Certificate from "@/models/Certificate";
+
+export async function GET() {
+  await dbConnect();
+  const items = await Certificate.find().sort({ createdAt: -1 });
+  return NextResponse.json(items);
+}
+
+export async function POST(req: NextRequest) {
+  await dbConnect();
+  const body = await req.json();
+  const item = await Certificate.create(body);
+  return NextResponse.json(item, { status: 201 });
+}
+
+export async function PATCH(req: NextRequest) {
+  await dbConnect();
+  const body = await req.json();
+  const { id, ...data } = body;
+  const item = await Certificate.findByIdAndUpdate(id, data, { new: true });
+  return NextResponse.json(item);
+}
+
+export async function DELETE(req: NextRequest) {
+  await dbConnect();
+  const { id } = await req.json();
+  await Certificate.findByIdAndDelete(id);
+  return NextResponse.json({ success: true });
+}

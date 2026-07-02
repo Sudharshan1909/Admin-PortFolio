@@ -1,0 +1,189 @@
+"use client";
+
+import { useState } from "react";
+import DashboardForm from "@/components/dashboard-form";
+import { updateProjects } from "../actions";
+
+type ProjectItem = {
+  title: string;
+  demoText: string;
+  link: string;
+  description: string;
+};
+
+type ProjectViewItem = {
+  title: string;
+  demoText: string;
+  link: string;
+  description: string;
+};
+
+type ProjectsEditorProps = {
+  initialProjects: ProjectItem[];
+};
+
+const emptyProject: ProjectViewItem = {
+  title: "",
+  demoText: "Live Demo",
+  link: "",
+  description: "",
+};
+
+export default function ProjectsEditor({
+  initialProjects,
+}: ProjectsEditorProps) {
+  const [projects, setProjects] = useState<ProjectViewItem[]>(
+    initialProjects.length
+      ? initialProjects.map((item) => ({
+          title: item.title ?? "",
+          demoText: item.demoText || "Live Demo",
+          link: item.link ?? "",
+          description: item.description ?? "",
+        }))
+      : [emptyProject]
+  );
+
+  const updateProject = (
+    index: number,
+    field: keyof ProjectViewItem,
+    value: string
+  ) => {
+    setProjects((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item
+      )
+    );
+  };
+
+  const addProject = () => {
+    setProjects((prev) => [...prev, { ...emptyProject }]);
+  };
+
+  const removeProject = (index: number) => {
+    setProjects((prev) =>
+      prev.length === 1 ? prev : prev.filter((_, i) => i !== index)
+    );
+  };
+
+  const cleanedProjects = projects.map((item) => ({
+    title: item.title.trim(),
+    demoText: item.demoText.trim(),
+    link: item.link.trim(),
+    description: item.description.trim(),
+  }));
+
+  return (
+    <DashboardForm action={updateProjects}>
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-semibold text-white">Projects</h2>
+          <p className="mt-1 text-sm text-white/45">
+            Add project title, demo label, project link, and description.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={addProject}
+          className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90"
+        >
+          Add +
+        </button>
+      </div>
+
+      <div className="mt-8 space-y-5">
+        {projects.map((project, index) => (
+          <div
+            key={index}
+            className="rounded-3xl border border-white/10 bg-black/20 p-6"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-base font-medium text-white">
+                Project {index + 1}
+              </h3>
+
+              <button
+                type="button"
+                onClick={() => removeProject(index)}
+                className="rounded-xl border border-red-400/20 px-3 py-2 text-sm text-red-300 transition hover:bg-red-500/10"
+              >
+                Remove
+              </button>
+            </div>
+
+            <div className="mt-5 grid gap-4">
+              <div>
+                <label className="mb-2 block text-sm text-white/65">
+                  Project Title
+                </label>
+                <input
+                  type="text"
+                  value={project.title}
+                  onChange={(e) =>
+                    updateProject(index, "title", e.target.value)
+                  }
+                  placeholder="Enter project title"
+                  className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                />
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm text-white/65">
+                    Left-side Text
+                  </label>
+                  <input
+                    type="text"
+                    value={project.demoText}
+                    onChange={(e) =>
+                      updateProject(index, "demoText", e.target.value)
+                    }
+                    placeholder="Live Demo"
+                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm text-white/65">
+                    Project Link
+                  </label>
+                  <input
+                    type="url"
+                    value={project.link}
+                    onChange={(e) =>
+                      updateProject(index, "link", e.target.value)
+                    }
+                    placeholder="https://example.com"
+                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-white/65">
+                  Description
+                </label>
+                <textarea
+                  rows={4}
+                  value={project.description}
+                  onChange={(e) =>
+                    updateProject(index, "description", e.target.value)
+                  }
+                  placeholder="Specify details about the project"
+                  className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <input
+        type="hidden"
+        name="projectsData"
+        value={JSON.stringify(cleanedProjects)}
+        readOnly
+      />
+    </DashboardForm>
+  );
+}
