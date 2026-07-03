@@ -1,0 +1,7 @@
+export const styles 
+
+
+h1.mt-2.text-4xl.font-semibold.tracking-tight {
+    display: inline-block;
+    width: 250px;
+  }

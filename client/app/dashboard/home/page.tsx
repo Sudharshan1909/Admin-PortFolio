@@ -2,7 +2,6 @@ import DashboardHeader from "@/components/dashboard-header";
 import DashboardForm from "@/components/dashboard-form";
 import { updateProfile } from "../actions";
 import { getSiteData } from "@/lib/site-data";
-
 function getContactValue(
   links: { label: string; url: string }[],
   label: string
@@ -18,18 +17,14 @@ export default async function DashboardHomeDetailsPage() {
 
   return (
     <>
-      <DashboardHeader title={data.profile.name} subtitle="Welcome" />
-
-      <div className="p-8">
-        <div className="rounded-4xl border border-white/10 bg-white/3 p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="rounded-4xl border border-white/10 bg-white/3 p-4 sm:p-6 lg:p-8">
           <DashboardForm action={updateProfile}>
             <div className="grid gap-8">
               <div className="grid gap-6 md:grid-cols-[220px_1fr]">
-                <div>
-                  <p className="text-sm text-white/45">Profile Image</p>
-                </div>
 
                 <div className="space-y-4">
+                  <DashboardHeader title={data.profile.name} subtitle="Welcome" />
                   {data.profile.image ? (
                     <img
                       src={data.profile.image}

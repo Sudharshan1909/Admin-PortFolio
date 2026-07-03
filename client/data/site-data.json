@@ -19,16 +19,16 @@
   },
   "skills": {
     "technical": [
-      "cdss",
-      "dfsv",
-      "rvrsv",
-      "rvrsvr",
-      "tgtbtsh"
+      "css",
+      "python",
+      "javascript",
+      "typescript",
+      "html"
     ],
     "soft": [
-      "hmlfvv",
-      "jango",
-      "kingkong"
+      "communication",
+      "teamwork",
+      "leadership"
     ]
   },
   "careerEducation": [
@@ -92,5 +92,9 @@
       "link": "https://google.com",
       "issueId": ""
     }
-  ]
+  ],
+  "settings": {
+    "publicTheme": "emerald",
+    "screenMode": "light"
+  }
 }

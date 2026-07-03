@@ -1,20 +1,115 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: dark;
+  --app-bg: #0b1020;
+  --app-fg: #f8fafc;
 }
 
-html {
-  scroll-behavior: smooth;
+.light {
+  --app-bg: #f8fafc;
+  --app-fg: #0f172a;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(59,130,246,0.18), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(168,85,247,0.14), transparent 28%),
-    #09090b;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
+.public-theme {
+  min-height: 100%;
+}
+
+.theme-midnight {
+  --profile-bg: #09090b;
+  --profile-surface: rgba(255, 255, 255, 0.04);
+  --profile-panel: rgba(255, 255, 255, 0.07);
+  --profile-border: rgba(255, 255, 255, 0.1);
+  --profile-fg: #f8fafc;
+  --profile-muted: rgba(248, 250, 252, 0.65);
+  --profile-accent: #60a5fa;
+}
+
+.theme-ocean {
+  --profile-bg: #082f49;
+  --profile-surface: rgba(12, 74, 110, 0.45);
+  --profile-panel: rgba(14, 116, 144, 0.35);
+  --profile-border: rgba(125, 211, 252, 0.2);
+  --profile-fg: #ecfeff;
+  --profile-muted: rgba(236, 254, 255, 0.72);
+  --profile-accent: #67e8f9;
+}
+
+.theme-emerald {
+  --profile-bg: #022c22;
+  --profile-surface: rgba(6, 78, 59, 0.4);
+  --profile-panel: rgba(5, 150, 105, 0.22);
+  --profile-border: rgba(52, 211, 153, 0.2);
+  --profile-fg: #ecfdf5;
+  --profile-muted: rgba(236, 253, 245, 0.72);
+  --profile-accent: #34d399;
+}
+
+.theme-rose {
+  --profile-bg: #4a044e;
+  --profile-surface: rgba(131, 24, 67, 0.38);
+  --profile-panel: rgba(190, 24, 93, 0.22);
+  --profile-border: rgba(251, 113, 133, 0.24);
+  --profile-fg: #fff1f2;
+  --profile-muted: rgba(255, 241, 242, 0.72);
+  --profile-accent: #fb7185;
+}
+
+.theme-amber {
+  --profile-bg: #451a03;
+  --profile-surface: rgba(120, 53, 15, 0.42);
+  --profile-panel: rgba(180, 83, 9, 0.24);
+  --profile-border: rgba(251, 191, 36, 0.22);
+  --profile-fg: #fffbeb;
+  --profile-muted: rgba(255, 251, 235, 0.72);
+  --profile-accent: #fbbf24;
+}
+
+.theme-violet {
+  --profile-bg: #2e1065;
+  --profile-surface: rgba(88, 28, 135, 0.42);
+  --profile-panel: rgba(124, 58, 237, 0.22);
+  --profile-border: rgba(167, 139, 250, 0.22);
+  --profile-fg: #f5f3ff;
+  --profile-muted: rgba(245, 243, 255, 0.72);
+  --profile-accent: #a78bfa;
+}
+
+.theme-slate {
+  --profile-bg: #0f172a;
+  --profile-surface: rgba(30, 41, 59, 0.52);
+  --profile-panel: rgba(51, 65, 85, 0.4);
+  --profile-border: rgba(148, 163, 184, 0.2);
+  --profile-fg: #f8fafc;
+  --profile-muted: rgba(248, 250, 252, 0.68);
+  --profile-accent: #94a3b8;
+}
+
+.theme-crimson {
+  --profile-bg: #450a0a;
+  --profile-surface: rgba(127, 29, 29, 0.42);
+  --profile-panel: rgba(185, 28, 28, 0.25);
+  --profile-border: rgba(252, 165, 165, 0.2);
+  --profile-fg: #fef2f2;
+  --profile-muted: rgba(254, 242, 242, 0.72);
+  --profile-accent: #f87171;
+}
+
+.theme-forest {
+  --profile-bg: #052e16;
+  --profile-surface: rgba(20, 83, 45, 0.42);
+  --profile-panel: rgba(22, 101, 52, 0.25);
+  --profile-border: rgba(134, 239, 172, 0.18);
+  --profile-fg: #f0fdf4;
+  --profile-muted: rgba(240, 253, 244, 0.72);
+  --profile-accent: #86efac;
+}
+
+.theme-neon {
+  --profile-bg: #09090b;
+  --profile-surface: rgba(17, 24, 39, 0.6);
+  --profile-panel: rgba(34, 211, 238, 0.09);
+  --profile-border: rgba(34, 211, 238, 0.25);
+  --profile-fg: #ecfeff;
+  --profile-muted: rgba(236, 254, 255, 0.72);
+  --profile-accent: #22d3ee;
 }

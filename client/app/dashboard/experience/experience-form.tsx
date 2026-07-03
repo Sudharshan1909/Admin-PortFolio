@@ -68,8 +68,8 @@ export default function ExperienceForm({
     <>
       <DashboardHeader title="Experience" subtitle="Manage section" />
 
-      <div className="p-8">
-        <div className="rounded-4xl border border-white/10 bg-white/3 p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="rounded-[2rem] border border-white/10 bg-white/3 p-4 sm:p-6 lg:p-8">
           <DashboardForm action={updateExperience}>
             <div className="flex items-center justify-between gap-4">
               <div>
