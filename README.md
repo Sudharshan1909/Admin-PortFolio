@@ -137,8 +137,8 @@ This project can be released under the MIT License. Update this section if you c
 
 Replace the placeholders below with your actual details:
 
-- GitHub: [your-username](https://github.com/sudharshan1909)
-- LinkedIn: [your-linkedin](https://linkedin.com/sudharshan1909)
+- GitHub: [github.com/sudharshan1909](https://github.com/sudharshan1909)
+- LinkedIn: [linkedin.com/sudharshan1909](https://linkedin.com/sudharshan1909)
 - Email: itzmesudharshan@gmail.com
 
 ## Notes
