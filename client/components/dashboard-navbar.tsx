@@ -11,7 +11,7 @@ const navItems = [
   { href: "/dashboard/skills", label: "Skills" },
   { href: "/dashboard/projects", label: "Projects" },
   { href: "/dashboard/certificates", label: "Certificates" },
-  { href: "/dashboard/settings", label: "Settings" }
+  { href: "/dashboard/settings", label: "Settings" },
 ];
 
 type DashboardNavbarProps = {
@@ -42,19 +42,19 @@ export default function DashboardNavbar({
   const linkClass = (href: string) =>
     `rounded-2xl border px-4 py-2 text-sm transition ${
       pathname === href
-        ? "border-white/25 bg-white/10 text-white"
-        : "border-white/10 text-white/70 hover:border-white/20 hover:bg-white/5 hover:text-white"
+        ? "border-[var(--profile-border)] bg-[var(--profile-panel)] text-[var(--profile-fg)]"
+        : "border-[var(--profile-border)]/40 text-[var(--profile-muted)] hover:border-[var(--profile-border)] hover:bg-[var(--profile-panel)] hover:text-[var(--profile-fg)]"
     }`;
 
   return (
     <>
-      <header className="sticky top-3 z-50 rounded-3xl border border-white/10 bg-zinc-950/90 px-4 py-4 backdrop-blur md:top-4 md:px-6">
+      <header className="sticky top-3 z-50 rounded-3xl border border-(--profile-border) bg-(--profile-surface)/95 px-4 py-4 backdrop-blur md:top-4 md:px-6">
         <div className="flex items-center justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-white/35 sm:text-xs">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-(--profile-muted) sm:text-xs">
               Dashboard
             </p>
-            <h1 className="mt-2 truncate text-xl font-semibold tracking-tight sm:text-2xl">
+            <h1 className="mt-2 truncate text-xl font-semibold tracking-tight text-(--profile-fg) sm:text-2xl">
               {title}
             </h1>
           </div>
@@ -62,7 +62,11 @@ export default function DashboardNavbar({
           <div className="hidden items-center gap-4 lg:flex">
             <nav className="flex flex-wrap gap-2">
               {navItems.map((item) => (
-                <Link key={item.href} href={item.href} className={linkClass(item.href)}>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={linkClass(item.href)}
+                >
                   {item.label}
                 </Link>
               ))}
@@ -70,7 +74,7 @@ export default function DashboardNavbar({
 
             <Link
               href="/"
-              className="rounded-2xl border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+              className="rounded-2xl border border-(--profile-border) px-5 py-3 text-sm font-medium text-(--profile-fg) transition hover:bg-(--profile-panel)"
             >
               Logout
             </Link>
@@ -80,7 +84,7 @@ export default function DashboardNavbar({
             type="button"
             onClick={() => setIsOpen(true)}
             aria-label="Open dashboard menu"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-(--profile-border) bg-(--profile-panel) text-(--profile-fg) transition hover:opacity-90 lg:hidden"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +94,11 @@ export default function DashboardNavbar({
               stroke="currentColor"
               strokeWidth="1.8"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 7h16M4 12h16M4 17h16"
+              />
             </svg>
           </button>
         </div>
@@ -104,23 +112,25 @@ export default function DashboardNavbar({
       />
 
       <aside
-        className={`fixed right-0 top-0 z-70 flex h-screen w-[86%] max-w-sm flex-col border-l border-white/10 bg-zinc-950/95 p-6 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:hidden ${
+        className={`fixed right-0 top-0 z-70 flex h-screen w-[86%] max-w-sm flex-col border-l border-(--profile-border) bg-(--profile-bg)/95 p-6 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.35em] text-white/35">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-(--profile-muted)">
               Dashboard
             </p>
-            <h2 className="mt-2 text-xl font-semibold text-white">{title}</h2>
+            <h2 className="mt-2 text-xl font-semibold text-(--profile-fg)">
+              {title}
+            </h2>
           </div>
 
           <button
             type="button"
             onClick={() => setIsOpen(false)}
             aria-label="Close dashboard menu"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-(--profile-border) bg-(--profile-panel) text-(--profile-fg) transition hover:opacity-90"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -146,17 +156,10 @@ export default function DashboardNavbar({
         <div className="mt-6 grid gap-3">
           <Link
             href="/"
-            className="inline-flex w-full items-center justify-center rounded-2xl border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+            className="inline-flex w-full items-center justify-center rounded-2xl border border-(--profile-border) px-5 py-3 text-sm font-medium text-(--profile-fg) transition hover:bg-(--profile-panel)"
           >
             Logout
           </Link>
-
-          {/* <Link
-            href="/login"
-            className="inline-flex w-full items-center justify-center rounded-2xl border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
-          >
-            Account
-          </Link> */}
         </div>
       </aside>
     </>

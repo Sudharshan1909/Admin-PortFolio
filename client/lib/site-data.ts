@@ -39,24 +39,20 @@ export type CareerEntry = {
   cgpa: string;
 };
 
-// export type PublicThemeName =
-//   | "midnight"
-//   | "ocean"
-//   | "emerald"
-//   | "rose"
-//   | "amber"
-//   | "violet"
-//   | "slate"
-//   | "crimson"
-//   | "forest"
-//   | "neon";
-
-// export type ScreenMode = "dark" | "light";
-
-// export type SiteSettings = {
-//   publicTheme: PublicThemeName;
-//   screenMode: ScreenMode;
-// };
+export type PublicThemeName =
+  | "midnight"
+  | "ocean"
+  | "emerald"
+  | "rose"
+  | "amber"
+  | "violet"
+  | "slate"
+  | "crimson"
+  | "forest"
+  | "neon";
+export type SiteSettings = {
+  publicTheme: PublicThemeName;
+};
 
 export type SiteData = {
   profile: {
@@ -76,7 +72,7 @@ export type SiteData = {
   experience: ExperienceItem[];
   projects: ProjectItem[];
   certificates: CertificateItem[];
-  // settings: SiteSettings;
+  settings: SiteSettings;
 };
 
 const dataDir = path.join(process.cwd(), "data");
@@ -104,10 +100,9 @@ const defaultData: SiteData = {
   experience: [],
   projects: [],
   certificates: [],
-//   settings: {
-//   publicTheme: "midnight",
-//   screenMode: "dark",
-// },
+  settings: {
+  publicTheme: "midnight",
+},
 };
 
 async function ensureDataFile() {
@@ -124,27 +119,24 @@ function normalizeString(value: unknown): string {
   return String(value ?? "").trim();
 }
 
-// function normalizeTheme(value: unknown): PublicThemeName {
-//   const validThemes: PublicThemeName[] = [
-//     "midnight",
-//     "ocean",
-//     "emerald",
-//     "rose",
-//     "amber",
-//     "violet",
-//     "slate",
-//     "crimson",
-//     "forest",
-//     "neon",
-//   ];
+function normalizeTheme(value: unknown): PublicThemeName {
+  const validThemes: PublicThemeName[] = [
+    "midnight",
+    "ocean",
+    "emerald",
+    "rose",
+    "amber",
+    "violet",
+    "slate",
+    "crimson",
+    "forest",
+    "neon",
+  ];
 
-//   const theme = normalizeString(value).toLowerCase() as PublicThemeName;
-//   return validThemes.includes(theme) ? theme : "midnight";
-// }
+  const theme = normalizeString(value).toLowerCase() as PublicThemeName;
+  return validThemes.includes(theme) ? theme : "midnight";
+}
 
-// function normalizeScreenMode(value: unknown): ScreenMode {
-//   return value === "light" ? "light" : "dark";
-// }
 
 function mergeWithDefaultData(rawData: unknown): SiteData {
   const parsed = (rawData ?? {}) as Partial<SiteData> & {
@@ -224,10 +216,9 @@ function mergeWithDefaultData(rawData: unknown): SiteData {
           issueId: normalizeString(item?.issueId),
         }))
       : defaultData.certificates,
-    // settings: {
-    //   publicTheme: normalizeTheme(parsed.settings?.publicTheme),
-    //   screenMode: normalizeScreenMode(parsed.settings?.screenMode),
-    // },
+    settings: {
+      publicTheme: normalizeTheme(parsed.settings?.publicTheme),
+    },
   };
 }
 

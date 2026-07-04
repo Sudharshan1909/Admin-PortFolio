@@ -27,31 +27,30 @@ export default function PublicNavbar({ name }: PublicNavbarProps) {
 
   useEffect(() => {
     if (!isOpen) return;
-
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = previous;
     };
   }, [isOpen]);
 
   const linkClass = (href: string) =>
-    `rounded-2xl border px-4 py-2 text-sm transition ${
+    `rounded-2xl border px-4 py-2 text-sm transition-transform duration-150 ${
       pathname === href
-        ? "border-white/25 bg-white/10 text-white"
-        : "border-white/10 text-white/70 hover:border-white/20 hover:bg-white/5 hover:text-white"
+        ? "border-[var(--profile-border)] bg-[var(--profile-panel)] text-[var(--profile-fg)] scale-[1.03]"
+        : "border-[var(--profile-border)] text-[var(--profile-muted)] hover:bg-[var(--profile-panel)] hover:text-[var(--profile-fg)] hover:scale-[1.03]"
     }`;
 
   return (
     <>
-      <header className="sticky top-3 z-50 rounded-3xl border border-white/10 bg-zinc-950/90 px-4 py-4 backdrop-blur md:top-4 md:px-6">
+      {/* Desktop / top navbar */}
+      <header className="sticky top-3 z-50 rounded-3xl border border-(--profile-border) bg-(--profile-surface) px-4 py-4 backdrop-blur md:top-4 md:px-6">
         <div className="flex items-center justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-white/35 sm:text-xs">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-(--profile-muted) sm:text-xs">
               Public Profile
             </p>
-            <h1 className="mt-2 truncate text-xl font-semibold tracking-tight sm:text-2xl">
+            <h1 className="mt-2 truncate text-xl font-semibold tracking-tight text-(--profile-fg) sm:text-2xl">
               {name}
             </h1>
           </div>
@@ -64,20 +63,22 @@ export default function PublicNavbar({ name }: PublicNavbarProps) {
                 </Link>
               ))}
             </nav>
-
-            <Link
-              href="/login"
-              className="rounded-2xl border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
-            >
-              Admin Login
-            </Link>
+            <div className="hidden items-center gap-4 lg:flex">
+          <Link
+            href="/login"
+            className="rounded-2xl border border-(--profile-border) bg-(--profile-panel) px-5 py-3 text-sm font-medium text-(--profile-fg) transition-transform duration-150 hover:scale-[1.03]"
+          >
+            Admin Login
+          </Link>
+        </div>
           </div>
 
+          {/* Mobile menu button */}
           <button
             type="button"
             onClick={() => setIsOpen(true)}
             aria-label="Open menu"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-(--profile-border) bg-(--profile-panel) text-(--profile-fg) transition-transform duration-150 hover:scale-[1.05] lg:hidden"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,9 +91,12 @@ export default function PublicNavbar({ name }: PublicNavbarProps) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
             </svg>
           </button>
+          
         </div>
+        
       </header>
 
+      {/* Mobile overlay */}
       <div
         className={`fixed inset-0 z-60 bg-black/60 backdrop-blur-sm transition duration-300 lg:hidden ${
           isOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
@@ -100,24 +104,25 @@ export default function PublicNavbar({ name }: PublicNavbarProps) {
         onClick={() => setIsOpen(false)}
       />
 
+      {/* Mobile drawer */}
       <aside
-        className={`fixed right-0 top-0 z-70 flex h-screen w-[86%] max-w-sm flex-col border-l border-white/10 bg-zinc-950/95 p-6 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:hidden ${
+        className={`fixed right-0 top-0 z-70 flex h-screen w-[86%] max-w-sm flex-col border-l border-(--profile-border) bg-(--profile-bg) p-6 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.35em] text-white/35">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-(--profile-muted)">
               Navigation
             </p>
-            <h2 className="mt-2 text-xl font-semibold text-white">{name}</h2>
+            <h2 className="mt-2 text-xl font-semibold text-(--profile-fg)">{name}</h2>
           </div>
 
           <button
             type="button"
             onClick={() => setIsOpen(false)}
             aria-label="Close menu"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-(--profile-border) bg-(--profile-panel) text-(--profile-fg) transition-transform duration-150 hover:scale-[1.05]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -141,11 +146,12 @@ export default function PublicNavbar({ name }: PublicNavbarProps) {
         </nav>
 
         <div className="mt-6">
-        <Link
+          <Link
             href="/login"
-            className="rounded-2xl border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10">
-          Admin Login
-        </Link>
+            className="rounded-2xl border border-(--profile-border) bg-(--profile-panel) px-5 py-3 text-sm font-medium text-(--profile-fg) transition-transform duration-150 hover:scale-[1.03]"
+          >
+            Admin Login
+          </Link>
         </div>
       </aside>
     </>

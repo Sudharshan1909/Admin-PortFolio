@@ -18,8 +18,9 @@ export default async function SkillsPage() {
   return (
     <>
       <DashboardHeader title="Skills" subtitle="Manage section" />
+
       <div className="p-4 sm:p-6 lg:p-8">
-        <div className="rounded-[2rem] border border-white/10 bg-white/3 p-4 sm:p-6 lg:p-8">
+        <div className="rounded-4xl border border-(--profile-border) bg-(--profile-surface) p-4 sm:p-6 lg:p-8">
           <SkillsEditor
             initialTechnical={technical}
             initialSoft={soft}

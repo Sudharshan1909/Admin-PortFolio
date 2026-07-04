@@ -1,6 +1,12 @@
 "use client";
 
+import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
+
+type FormState = {
+  success: boolean;
+  message: string;
+};
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -9,7 +15,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-2xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
+      className="rounded-2xl bg-(--profile-accent) px-5 py-3 text-sm font-medium text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending ? "Saving..." : "Save Changes"}
     </button>
@@ -17,23 +23,42 @@ function SubmitButton() {
 }
 
 type DashboardFormProps = {
-  action: (formData: FormData) => void | Promise<void>;
+  action: (prevState: FormState, formData: FormData) => Promise<FormState>;
   children: React.ReactNode;
+};
+
+const initialState: FormState = {
+  success: false,
+  message: "",
 };
 
 export default function DashboardForm({
   action,
   children,
 }: DashboardFormProps) {
+  const [state, formAction] = useActionState(action, initialState);
+
   return (
-    <form action={action} className="space-y-8">
+    <form action={formAction} className="space-y-8 rounded-3xl border border-(--profile-border) bg-(--profile-surface) p-6">
       {children}
 
-      <div className="flex items-center justify-between gap-4 border-t border-white/10 pt-6">
-        <p className="text-sm text-white/45">
+      <div className="flex flex-col gap-3 border-t border-(--profile-border) pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-(--profile-muted)">
           Save your changes to update the site content.
         </p>
-        <SubmitButton />
+
+        <div className="flex items-center gap-4">
+          {state.message ? (
+            <p
+              className={`text-sm font-medium ${
+                state.success ? "text-emerald-300" : "text-red-300"
+              }`}
+            >
+              {state.message}
+            </p>
+          ) : null}
+          <SubmitButton />
+        </div>
       </div>
     </form>
   );

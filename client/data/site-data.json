@@ -5,7 +5,7 @@
     "location": "India",
     "email": "you@example.com",
     "summary": "I build modern web applications with clean UI, reliable backend systems, and strong attention to performance.",
-    "image": "/uploads/1782041277678-10e5per91agr.jpg",
+    "image": "/uploads/1783180930346-nqsft1iqpbf.jpg",
     "contactLinks": [
       {
         "label": "GitHub",
@@ -68,19 +68,19 @@
   "projects": [
     {
       "title": "Habit Tracking",
-      "demoText": "",
+      "demoText": "Live Demo",
       "link": "https://habitbloom-growth-guide.lovable.app",
       "description": "my habit tracker"
     },
     {
       "title": "Portfolio",
-      "demoText": "",
+      "demoText": "Live Demo",
       "link": "https://google.com",
       "description": "my portfolio"
     },
     {
       "title": "python projects",
-      "demoText": "",
+      "demoText": "Live Demo",
       "link": "https://netmirror.com",
       "description": "tools: frontend,backend and database"
     }
@@ -90,11 +90,10 @@
       "organization": "infosys",
       "title": "aiml",
       "link": "https://google.com",
-      "issueId": ""
+      "issueId": "gnh"
     }
   ],
   "settings": {
-    "publicTheme": "emerald",
-    "screenMode": "light"
+    "publicTheme": "violet"
   }
 }

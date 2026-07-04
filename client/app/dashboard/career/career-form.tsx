@@ -105,143 +105,141 @@ export default function CareerForm({ initialEntries }: CareerFormProps) {
       <DashboardHeader title="Career" subtitle="Manage education details" />
 
       <div className="p-4 sm:p-6 lg:p-8">
-        <div className="rounded-[2rem] border border-white/10 bg-white/3 p-4 sm:p-6 lg:p-8">
-          <DashboardForm action={updateCareer}>
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h2 className="text-xl font-semibold text-white">
-                  Education History
-                </h2>
-                <p className="mt-1 text-sm text-white/50">
-                  Add institution, degree, duration, and CGPA.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={addEntry}
-                className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90"
-              >
-                Add +
-              </button>
+        <DashboardForm action={updateCareer}>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold text-(--profile-fg)">
+                Education History
+              </h2>
+              <p className="mt-1 text-sm text-(--profile-muted)">
+                Add institution, degree, duration, and CGPA.
+              </p>
             </div>
 
-            <div className="mt-8 space-y-5">
-              {entries.map((entry, index) => (
-                <div
-                  key={index}
-                  className="rounded-3xl border border-white/10 bg-black/20 p-6"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-base font-medium text-white">
-                      Career Entry {index + 1}
-                    </h3>
+            <button
+              type="button"
+              onClick={addEntry}
+              className="rounded-2xl bg-(--profile-accent) px-4 py-2 text-sm font-medium text-black transition hover:opacity-90"
+            >
+              Add +
+            </button>
+          </div>
 
-                    <button
-                      type="button"
-                      onClick={() => removeEntry(index)}
-                      className="rounded-xl border border-red-400/20 px-3 py-2 text-sm text-red-300 transition hover:bg-red-500/10"
+          <div className="mt-8 space-y-5">
+            {entries.map((entry, index) => (
+              <div
+                key={index}
+                className="rounded-3xl border border-(--profile-border) bg-(--profile-panel) p-6"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="text-base font-medium text-(--profile-fg)">
+                    Career Entry {index + 1}
+                  </h3>
+
+                  <button
+                    type="button"
+                    onClick={() => removeEntry(index)}
+                    className="rounded-xl border border-red-400/30 px-3 py-2 text-sm text-red-200 transition hover:bg-red-500/10"
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                <div className="mt-5 grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="mb-2 block text-sm text-(--profile-muted)">
+                      Institution Name
+                    </label>
+                    <select
+                      value={entry.institution}
+                      onChange={(e) =>
+                        updateEntry(index, "institution", e.target.value)
+                      }
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
                     >
-                      Remove
-                    </button>
+                      <option value="">Select college</option>
+                      {collegeOptions.map((college) => (
+                        <option key={college} value={college}>
+                          {college}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
-                  <div className="mt-5 grid gap-4 md:grid-cols-2">
-                    <div>
-                      <label className="mb-2 block text-sm text-white/65">
-                        Institution Name
-                      </label>
-                      <select
-                        value={entry.institution}
-                        onChange={(e) =>
-                          updateEntry(index, "institution", e.target.value)
-                        }
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
-                      >
-                        <option value="">Select college</option>
-                        {collegeOptions.map((college) => (
-                          <option key={college} value={college}>
-                            {college}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  <div>
+                    <label className="mb-2 block text-sm text-(--profile-muted)">
+                      Degree
+                    </label>
+                    <select
+                      value={entry.degree}
+                      onChange={(e) =>
+                        updateEntry(index, "degree", e.target.value)
+                      }
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
+                    >
+                      <option value="">Select degree</option>
+                      {degreeOptions.map((degree) => (
+                        <option key={degree} value={degree}>
+                          {degree}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                    <div>
-                      <label className="mb-2 block text-sm text-white/65">
-                        Degree
-                      </label>
-                      <select
-                        value={entry.degree}
-                        onChange={(e) =>
-                          updateEntry(index, "degree", e.target.value)
-                        }
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
-                      >
-                        <option value="">Select degree</option>
-                        {degreeOptions.map((degree) => (
-                          <option key={degree} value={degree}>
-                            {degree}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  <div>
+                    <label className="mb-2 block text-sm text-(--profile-muted)">
+                      From
+                    </label>
+                    <input
+                      type="month"
+                      value={entry.from}
+                      onChange={(e) =>
+                        updateEntry(index, "from", e.target.value)
+                      }
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
+                    />
+                  </div>
 
-                    <div>
-                      <label className="mb-2 block text-sm text-white/65">
-                        From
-                      </label>
-                      <input
-                        type="month"
-                        value={entry.from}
-                        onChange={(e) =>
-                          updateEntry(index, "from", e.target.value)
-                        }
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
-                      />
-                    </div>
+                  <div>
+                    <label className="mb-2 block text-sm text-(--profile-muted)">
+                      To
+                    </label>
+                    <input
+                      type="month"
+                      value={entry.to}
+                      onChange={(e) =>
+                        updateEntry(index, "to", e.target.value)
+                      }
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
+                    />
+                  </div>
 
-                    <div>
-                      <label className="mb-2 block text-sm text-white/65">
-                        To
-                      </label>
-                      <input
-                        type="month"
-                        value={entry.to}
-                        onChange={(e) =>
-                          updateEntry(index, "to", e.target.value)
-                        }
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
-                      />
-                    </div>
-
-                    <div className="md:col-span-2">
-                      <label className="mb-2 block text-sm text-white/65">
-                        CGPA
-                      </label>
-                      <input
-                        type="text"
-                        value={entry.cgpa}
-                        onChange={(e) =>
-                          updateEntry(index, "cgpa", e.target.value)
-                        }
-                        placeholder="Example: 8.6"
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
-                      />
-                    </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-2 block text-sm text-(--profile-muted)">
+                      CGPA
+                    </label>
+                    <input
+                      type="text"
+                      value={entry.cgpa}
+                      onChange={(e) =>
+                        updateEntry(index, "cgpa", e.target.value)
+                      }
+                      placeholder="Example: 8.6"
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
+                    />
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            <input
-              type="hidden"
-              name="careerEducation"
-              value={JSON.stringify(entries)}
-              readOnly
-            />
-          </DashboardForm>
-        </div>
+          <input
+            type="hidden"
+            name="careerEducation"
+            value={JSON.stringify(entries)}
+            readOnly
+          />
+        </DashboardForm>
       </div>
     </>
   );

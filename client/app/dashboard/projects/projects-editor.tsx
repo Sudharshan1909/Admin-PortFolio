@@ -76,8 +76,10 @@ export default function ProjectsEditor({
     <DashboardForm action={updateProjects}>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-white">Projects</h2>
-          <p className="mt-1 text-sm text-white/45">
+          <h2 className="text-xl font-semibold text-(--profile-fg)">
+            Projects
+          </h2>
+          <p className="mt-1 text-sm text-(--profile-muted)">
             Add project title, demo label, project link, and description.
           </p>
         </div>
@@ -85,7 +87,7 @@ export default function ProjectsEditor({
         <button
           type="button"
           onClick={addProject}
-          className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90"
+          className="rounded-2xl bg-(--profile-accent) px-4 py-2 text-sm font-medium text-black transition hover:opacity-90"
         >
           Add +
         </button>
@@ -95,17 +97,17 @@ export default function ProjectsEditor({
         {projects.map((project, index) => (
           <div
             key={index}
-            className="rounded-3xl border border-white/10 bg-black/20 p-6"
+            className="rounded-3xl border border-(--profile-border) bg-(--profile-panel) p-6"
           >
             <div className="flex items-center justify-between gap-4">
-              <h3 className="text-base font-medium text-white">
+              <h3 className="text-base font-medium text-(--profile-fg)">
                 Project {index + 1}
               </h3>
 
               <button
                 type="button"
                 onClick={() => removeProject(index)}
-                className="rounded-xl border border-red-400/20 px-3 py-2 text-sm text-red-300 transition hover:bg-red-500/10"
+                className="rounded-xl border border-red-400/30 px-3 py-2 text-sm text-red-200 transition hover:bg-red-500/10"
               >
                 Remove
               </button>
@@ -113,7 +115,7 @@ export default function ProjectsEditor({
 
             <div className="mt-5 grid gap-4">
               <div>
-                <label className="mb-2 block text-sm text-white/65">
+                <label className="mb-2 block text-sm text-(--profile-muted)">
                   Project Title
                 </label>
                 <input
@@ -123,13 +125,13 @@ export default function ProjectsEditor({
                     updateProject(index, "title", e.target.value)
                   }
                   placeholder="Enter project title"
-                  className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                  className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
                 />
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm text-white/65">
+                  <label className="mb-2 block text-sm text-(--profile-muted)">
                     Left-side Text
                   </label>
                   <input
@@ -139,12 +141,12 @@ export default function ProjectsEditor({
                       updateProject(index, "demoText", e.target.value)
                     }
                     placeholder="Live Demo"
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                    className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm text-white/65">
+                  <label className="mb-2 block text-sm text-(--profile-muted)">
                     Project Link
                   </label>
                   <input
@@ -154,13 +156,13 @@ export default function ProjectsEditor({
                       updateProject(index, "link", e.target.value)
                     }
                     placeholder="https://example.com"
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                    className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-white/65">
+                <label className="mb-2 block text-sm text-(--profile-muted)">
                   Description
                 </label>
                 <textarea
@@ -170,7 +172,7 @@ export default function ProjectsEditor({
                     updateProject(index, "description", e.target.value)
                   }
                   placeholder="Specify details about the project"
-                  className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                  className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-(--profile-fg) outline-none"
                 />
               </div>
             </div>

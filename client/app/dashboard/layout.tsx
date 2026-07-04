@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 py-6 text-white">
+    <main className="min-h-screen bg-(--profile-bg) px-4 py-6 text-(--profile-fg)">
       <section className="mx-auto max-w-6xl space-y-6">
         <DashboardNavbar />
         {children}
