@@ -2,11 +2,10 @@ import mongoose, { Schema, models, model } from "mongoose";
 
 const CertificateSchema = new Schema(
   {
-    organizationName: { type: String, default: "" },
-    certificateName: { type: String, default: "" },
-    credentialLink: { type: String, default: "" },
-    journalNote: { type: String, default: "" },
-    proofImageUrl: { type: String, default: "" }
+    organization: { type: String, default: "" },
+    title: { type: String, default: "" },
+    link: { type: String, default: "" },
+    issueId: { type: String, default: "" }
   },
   { timestamps: true }
 );

@@ -6,30 +6,45 @@ import Career from "@/models/Career";
 export const runtime = "nodejs";
 
 export async function GET() {
-  await dbConnect();
-  const item = await Career.findOne().sort({ createdAt: -1 }).lean();
-  return NextResponse.json(item);
+  try {
+    await dbConnect();
+    const item = await Career.findOne().sort({ createdAt: -1 }).lean();
+    return NextResponse.json(item, { status: 200 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to fetch career details";
+    return NextResponse.json({ message }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const body = await req.json();
-  const careerEducation = Array.isArray(body.careerEducation)
-    ? body.careerEducation
-    : [];
+    const body = await req.json();
+    const careerEducation = Array.isArray(body.careerEducation)
+      ? body.careerEducation
+      : [];
 
-  const item = await Career.findOneAndUpdate(
-    {},
-    { careerEducation },
-    { new: true, upsert: true }
-  );
+    const item = await Career.findOneAndUpdate(
+      {},
+      { careerEducation },
+      { new: true, upsert: true }
+    );
 
-  return NextResponse.json(item, { status: 200 });
+    return NextResponse.json(item, { status: 200 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to save career details";
+    return NextResponse.json({ message }, { status: 500 });
+  }
 }
 
 export async function DELETE() {
-  await dbConnect();
-  await Career.deleteOne({});
-  return NextResponse.json({ success: true });
+  try {
+    await dbConnect();
+    await Career.deleteOne({});
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to delete career details";
+    return NextResponse.json({ message }, { status: 500 });
+  }
 }

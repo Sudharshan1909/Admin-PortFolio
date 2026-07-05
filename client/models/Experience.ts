@@ -2,11 +2,12 @@ import mongoose, { Schema, models, model } from "mongoose";
 
 const ExperienceSchema = new Schema(
   {
-    companyName: { type: String, default: "" },
+    company: { type: String, default: "" },
+    location: { type: String, default: "" },
+    employmentType: { type: String, default: "" },
     role: { type: String, default: "" },
-    description: { type: String, default: "" },
-    proofImageUrl: { type: String, default: "" },
-    skillsLearned: [{ type: String }]
+    duration: { type: String, default: "" },
+    description: { type: String, default: "" }
   },
   { timestamps: true }
 );

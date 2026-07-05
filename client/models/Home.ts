@@ -1,15 +1,22 @@
 import mongoose, { Schema, models, model } from "mongoose";
 
+const ContactLinkSchema = new Schema(
+  {
+    label: { type: String, default: "" },
+    url: { type: String, default: "" },
+  },
+  { _id: false }
+);
+
 const ProfileSchema = new Schema(
   {
-    fullName: { type: String, default: "" },
-    title: { type: String, default: "" },
-    about: { type: String, default: "" },
-    phone: { type: String, default: "" },
-    gmail: { type: String, default: "" },
-    linkedin: { type: String, default: "" },
-    github: { type: String, default: "" },
-    imageUrl: { type: String, default: "" },
+    name: { type: String, default: "" },
+    role: { type: String, default: "" },
+    location: { type: String, default: "" },
+    email: { type: String, default: "" },
+    summary: { type: String, default: "" },
+    image: { type: String, default: "" },
+    contactLinks: { type: [ContactLinkSchema], default: [] },
   },
   { timestamps: true }
 );

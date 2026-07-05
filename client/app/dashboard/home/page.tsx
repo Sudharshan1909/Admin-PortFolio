@@ -30,10 +30,10 @@ export default async function DashboardHomeDetailsPage() {
                     <img
                       src={data.profile.image}
                       alt={data.profile.name}
-                      className="h-40 w-32 rounded-2xl border border-white/10 object-cover"
+                      className="h-40 w-32 rounded-2xl border border-(--profile-border) object-cover"
                     />
                   ) : (
-                    <div className="flex h-40 w-32 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-sm text-white/40">
+                    <div className="flex h-40 w-32 items-center justify-center rounded-2xl border border-(--profile-border) bg-(--profile-bg) text-sm text-white/40">
                       No image
                     </div>
                   )}
@@ -48,7 +48,7 @@ export default async function DashboardHomeDetailsPage() {
                     type="file"
                     name="imageFile"
                     accept="image/*"
-                    className="block w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black"
+                    className="block w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black"
                   />
                 </div>
               </div>
@@ -61,7 +61,7 @@ export default async function DashboardHomeDetailsPage() {
                   <input
                     name="role"
                     defaultValue={data.profile.role}
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                    className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                   />
                 </div>
 
@@ -72,7 +72,7 @@ export default async function DashboardHomeDetailsPage() {
                   <input
                     name="location"
                     defaultValue={data.profile.location}
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                    className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                   />
                 </div>
 
@@ -83,7 +83,7 @@ export default async function DashboardHomeDetailsPage() {
                   <input
                     name="email"
                     defaultValue={data.profile.email}
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                    className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                   />
                 </div>
 
@@ -95,12 +95,12 @@ export default async function DashboardHomeDetailsPage() {
                     name="summary"
                     rows={5}
                     defaultValue={data.profile.summary}
-                    className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                    className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                   />
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-black/20 p-6">
+              <div className="rounded-3xl border border-(--profile-border) bg-(--profile-bg) p-6">
                 <p className="text-sm uppercase tracking-[0.25em] text-white/35">
                   Contact Links
                 </p>
@@ -115,7 +115,7 @@ export default async function DashboardHomeDetailsPage() {
                         "GitHub"
                       )}
                       placeholder="https://github.com/username"
-                      className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none"
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                     />
                   </div>
 
@@ -128,7 +128,7 @@ export default async function DashboardHomeDetailsPage() {
                         "LinkedIn"
                       )}
                       placeholder="https://linkedin.com/in/username"
-                      className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none"
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                     />
                   </div>
 
@@ -141,7 +141,7 @@ export default async function DashboardHomeDetailsPage() {
                         "Twitter"
                       )}
                       placeholder="https://twitter.com/username"
-                      className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none"
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                     />
                   </div>
 
@@ -154,7 +154,7 @@ export default async function DashboardHomeDetailsPage() {
                         "Portfolio"
                       )}
                       placeholder="https://your-site.com"
-                      className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none"
+                      className="w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-white outline-none"
                     />
                   </div>
                 </div>

@@ -2,10 +2,10 @@ import mongoose, { Schema, models, model } from "mongoose";
 
 const ProjectSchema = new Schema(
   {
-    projectName: { type: String, default: "" },
-    projectLink: { type: String, default: "" },
-    features: [{ type: String }],
-    toolsUsed: [{ type: String }]
+    title: { type: String, default: "" },
+    demoText: { type: String, default: "" },
+    link: { type: String, default: "" },
+    description: { type: String, default: "" }
   },
   { timestamps: true }
 );

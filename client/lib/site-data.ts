@@ -3,6 +3,15 @@ import { promises as fs } from "fs";
 import path from "path";
 import { unstable_noStore as noStore } from "next/cache";
 
+import dbConnect from "@/lib/dbConnect";
+import Profile from "@/models/Home";
+import Career from "@/models/Career";
+import Certificate from "@/models/Certificate";
+import Experience from "@/models/Experience";
+import Project from "@/models/Project";
+import Skill from "@/models/Skill";
+import Settings from "@/models/Settings";
+
 export type LinkItem = {
   label: string;
   url: string;
@@ -224,17 +233,162 @@ function mergeWithDefaultData(rawData: unknown): SiteData {
 
 export async function getSiteData(): Promise<SiteData> {
   noStore();
-  await ensureDataFile();
-
   try {
-    const raw = await fs.readFile(dataFile, "utf8");
-    return mergeWithDefaultData(JSON.parse(raw));
-  } catch {
+    await dbConnect();
+    const profileDoc = (await Profile.findOne().lean()) as any;
+    const careerDoc = (await Career.findOne().lean()) as any;
+    const certificateDocs = (await Certificate.find().lean()) as any[];
+    const experienceDocs = (await Experience.find().lean()) as any[];
+    const projectDocs = (await Project.find().lean()) as any[];
+    const skillDocs = (await Skill.find().lean()) as any[];
+    const settingsDoc = (await Settings.findOne().lean()) as any;
+
+    const profile = {
+      name: normalizeString(profileDoc?.name ?? defaultData.profile.name),
+      role: normalizeString(profileDoc?.role ?? defaultData.profile.role),
+      location: normalizeString(profileDoc?.location ?? defaultData.profile.location),
+      email: normalizeString(profileDoc?.email ?? defaultData.profile.email),
+      summary: normalizeString(profileDoc?.summary ?? defaultData.profile.summary),
+      image: normalizeString(profileDoc?.image ?? defaultData.profile.image),
+      contactLinks: Array.isArray(profileDoc?.contactLinks)
+        ? profileDoc.contactLinks.map((item: any) => ({
+            label: normalizeString(item?.label),
+            url: normalizeString(item?.url),
+          }))
+        : defaultData.profile.contactLinks,
+    };
+
+    const careerEducation = Array.isArray(careerDoc?.careerEducation)
+      ? careerDoc.careerEducation.map((item: any) => ({
+          institution: normalizeString(item?.institution),
+          degree: normalizeString(item?.degree),
+          from: normalizeString(item?.from),
+          to: normalizeString(item?.to),
+          cgpa: normalizeString(item?.cgpa),
+        }))
+      : defaultData.careerEducation;
+
+    const experience = Array.isArray(experienceDocs)
+      ? experienceDocs.map((item: any) => ({
+          company: normalizeString(item?.company),
+          location: normalizeString(item?.location),
+          employmentType: normalizeString(item?.employmentType),
+          role: normalizeString(item?.role),
+          duration: normalizeString(item?.duration),
+          description: normalizeString(item?.description),
+        }))
+      : defaultData.experience;
+
+    const projects = Array.isArray(projectDocs)
+      ? projectDocs.map((item: any) => ({
+          title: normalizeString(item?.title),
+          demoText: normalizeString(item?.demoText),
+          link: normalizeString(item?.link),
+          description: normalizeString(item?.description),
+        }))
+      : defaultData.projects;
+
+    const certificates = Array.isArray(certificateDocs)
+      ? certificateDocs.map((item: any) => ({
+          organization: normalizeString(item?.organization),
+          title: normalizeString(item?.title),
+          link: normalizeString(item?.link),
+          issueId: normalizeString(item?.issueId),
+        }))
+      : defaultData.certificates;
+
+    const technical = Array.isArray(skillDocs)
+      ? skillDocs.filter((d: any) => d.category === "technical").map((d: any) => normalizeString(d.name))
+      : [];
+    const soft = Array.isArray(skillDocs)
+      ? skillDocs.filter((d: any) => d.category === "soft").map((d: any) => normalizeString(d.name))
+      : [];
+    const skills = { technical, soft };
+
+    const settings = {
+      publicTheme: normalizeTheme(settingsDoc?.publicTheme ?? defaultData.settings.publicTheme),
+    };
+
+    return {
+      profile,
+      skills,
+      careerEducation,
+      experience,
+      projects,
+      certificates,
+      settings,
+    };
+  } catch (error) {
+    console.error("Error in getSiteData:", error);
     return defaultData;
   }
 }
 
 export async function saveSiteData(data: SiteData): Promise<void> {
-  await ensureDataFile();
-  await fs.writeFile(dataFile, JSON.stringify(data, null, 2), "utf8");
+  try {
+    await dbConnect();
+
+    // 1. Profile (upsert single document)
+    await Profile.findOneAndUpdate(
+      {},
+      {
+        name: data.profile.name,
+        role: data.profile.role,
+        location: data.profile.location,
+        email: data.profile.email,
+        summary: data.profile.summary,
+        image: data.profile.image,
+        contactLinks: data.profile.contactLinks,
+      },
+      { upsert: true, new: true }
+    );
+
+    // 2. Career (upsert single document)
+    await Career.findOneAndUpdate(
+      {},
+      { careerEducation: data.careerEducation },
+      { upsert: true, new: true }
+    );
+
+    // 3. Certificates (delete all and re-create)
+    await Certificate.deleteMany({});
+    if (data.certificates && data.certificates.length > 0) {
+      await Certificate.insertMany(data.certificates);
+    }
+
+    // 4. Experience (delete all and re-create)
+    await Experience.deleteMany({});
+    if (data.experience && data.experience.length > 0) {
+      await Experience.insertMany(data.experience);
+    }
+
+    // 5. Projects (delete all and re-create)
+    await Project.deleteMany({});
+    if (data.projects && data.projects.length > 0) {
+      await Project.insertMany(data.projects);
+    }
+
+    // 6. Skills (delete all and re-create)
+    await Skill.deleteMany({});
+    const skillDocs: any[] = [];
+    data.skills.technical.forEach(name => {
+      skillDocs.push({ name, category: "technical" });
+    });
+    data.skills.soft.forEach(name => {
+      skillDocs.push({ name, category: "soft" });
+    });
+    if (skillDocs.length > 0) {
+      await Skill.insertMany(skillDocs);
+    }
+
+    // 7. Settings (upsert single document)
+    await Settings.findOneAndUpdate(
+      {},
+      { publicTheme: data.settings.publicTheme },
+      { upsert: true, new: true }
+    );
+  } catch (error) {
+    console.error("Error in saveSiteData:", error);
+    throw error;
+  }
 }
