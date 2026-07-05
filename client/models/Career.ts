@@ -1,12 +1,19 @@
 import mongoose, { Schema, models, model } from "mongoose";
 
-const CareerSchema = new Schema(
+const CareerEntrySchema = new Schema(
   {
-    institutionName: { type: String, default: "" },
-    courseName: { type: String, default: "" },
+    institution: { type: String, default: "" },
+    degree: { type: String, default: "" },
     from: { type: String, default: "" },
     to: { type: String, default: "" },
-    description: { type: String, default: "" }
+    cgpa: { type: String, default: "" },
+  },
+  { _id: false }
+);
+
+const CareerSchema = new Schema(
+  {
+    careerEducation: { type: [CareerEntrySchema], default: [] },
   },
   { timestamps: true }
 );

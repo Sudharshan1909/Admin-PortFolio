@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Experience from "@/models/Experience";
 
+export const runtime = "nodejs";
 export async function GET() {
   await dbConnect();
   const items = await Experience.find().sort({ createdAt: -1 });

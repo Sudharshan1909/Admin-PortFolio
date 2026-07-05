@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Certificate from "@/models/Certificate";
 
+export const runtime = "nodejs";
 export async function GET() {
   await dbConnect();
   const items = await Certificate.find().sort({ createdAt: -1 });

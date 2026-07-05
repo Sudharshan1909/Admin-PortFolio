@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Skill from "@/models/Skill";
 
+export const runtime = "nodejs";
 export async function GET() {
   await dbConnect();
   const items = await Skill.find().sort({ createdAt: -1 });

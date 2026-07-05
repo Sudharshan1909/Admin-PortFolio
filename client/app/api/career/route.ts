@@ -1,31 +1,35 @@
+// app/api/career/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Career from "@/models/Career";
 
+export const runtime = "nodejs";
+
 export async function GET() {
   await dbConnect();
-  const items = await Career.find().sort({ createdAt: -1 });
-  return NextResponse.json(items);
+  const item = await Career.findOne().sort({ createdAt: -1 }).lean();
+  return NextResponse.json(item);
 }
 
 export async function POST(req: NextRequest) {
   await dbConnect();
+
   const body = await req.json();
-  const item = await Career.create(body);
-  return NextResponse.json(item, { status: 201 });
+  const careerEducation = Array.isArray(body.careerEducation)
+    ? body.careerEducation
+    : [];
+
+  const item = await Career.findOneAndUpdate(
+    {},
+    { careerEducation },
+    { new: true, upsert: true }
+  );
+
+  return NextResponse.json(item, { status: 200 });
 }
 
-export async function PATCH(req: NextRequest) {
+export async function DELETE() {
   await dbConnect();
-  const body = await req.json();
-  const { id, ...data } = body;
-  const item = await Career.findByIdAndUpdate(id, data, { new: true });
-  return NextResponse.json(item);
-}
-
-export async function DELETE(req: NextRequest) {
-  await dbConnect();
-  const { id } = await req.json();
-  await Career.findByIdAndDelete(id);
+  await Career.deleteOne({});
   return NextResponse.json({ success: true });
 }

@@ -2,6 +2,7 @@ import DashboardHeader from "@/components/dashboard-header";
 import DashboardForm from "@/components/dashboard-form";
 import { updateProfile } from "../actions";
 import { getSiteData } from "@/lib/site-data";
+import "./styles.css";
 function getContactValue(
   links: { label: string; url: string }[],
   label: string
