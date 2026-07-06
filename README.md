@@ -2,7 +2,7 @@
 
 A modern portfolio and admin dashboard built with Next.js, TypeScript, and Tailwind CSS. This project combines a public-facing portfolio website with an admin experience for managing profile content, portfolio sections, visual themes, and screen mode settings.
 
-[Live Demo](https://your-deployed-link-here.com)
+DEMO LINK:[https://admin-portfolio-emqn.onrender.com/](https://admin-portfolio-emqn.onrender.com/)
 
 ## Overview
 
@@ -45,15 +45,12 @@ Make sure the following tools are installed:
 ### Installation
 
 ```bash
-git clone https://github.com/your-username/admin-portfolio.git
-cd admin-portfolio
 npm install
 ```
 
 ### Run the development server
 
 ```bash
-cd client
 npm run dev
 ```
 
@@ -121,17 +118,13 @@ Potential future improvements:
 
 ## Contributing
 
-Contributions, suggestions, and improvements are welcome.
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Commit your changes.
-4. Push the branch.
-5. Open a pull request.
+This is a personal portfolio/admin project. External copying, redistribution,
+or reuse is not permitted without written permission.
 
 ## License
 
-This project can be released under the MIT License. Update this section if you choose a different license.
+This project is proprietary and all rights are reserved. See [LICENSE](LICENSE)
+for details.
 
 ## Contact
 

@@ -128,6 +128,33 @@ function normalizeString(value: unknown): string {
   return String(value ?? "").trim();
 }
 
+function getCareerEntryKey(item: CareerEntry): string {
+  return [
+    item.institution,
+    item.degree,
+    item.from,
+    item.to,
+    item.cgpa,
+  ]
+    .map((value) => normalizeString(value).toLowerCase())
+    .join("|");
+}
+
+function uniqueCareerEntries(entries: CareerEntry[]): CareerEntry[] {
+  const seen = new Set<string>();
+  const unique: CareerEntry[] = [];
+
+  for (const entry of entries) {
+    const key = getCareerEntryKey(entry);
+    if (seen.has(key)) continue;
+
+    seen.add(key);
+    unique.push(entry);
+  }
+
+  return unique;
+}
+
 function normalizeTheme(value: unknown): PublicThemeName {
   const validThemes: PublicThemeName[] = [
     "midnight",
@@ -272,8 +299,9 @@ export async function getSiteData(): Promise<SiteData> {
       ? careerDocs[0].careerEducation
       : [];
 
-    const careerEducation = Array.isArray(careerDocs) && careerDocs.length > 0
-      ? careerDocs.flatMap((doc: any) => {
+    const careerEducation = uniqueCareerEntries(
+      Array.isArray(careerDocs) && careerDocs.length > 0
+        ? careerDocs.flatMap((doc: any) => {
           if (Array.isArray(doc?.careerEducation)) {
             return doc.careerEducation.map((item: any) => ({
               institution: normalizeString(item?.institution),
@@ -292,13 +320,14 @@ export async function getSiteData(): Promise<SiteData> {
             cgpa: normalizeString(doc?.cgpa),
           };
         })
-      : legacyCareerEntries.map((item: any) => ({
+        : legacyCareerEntries.map((item: any) => ({
           institution: normalizeString(item?.institution),
           degree: normalizeString(item?.degree),
           from: normalizeString(item?.from),
           to: normalizeString(item?.to),
           cgpa: normalizeString(item?.cgpa),
-        }));
+        }))
+    );
 
     const experience = Array.isArray(experienceDocs)
       ? experienceDocs.map((item: any) => ({
