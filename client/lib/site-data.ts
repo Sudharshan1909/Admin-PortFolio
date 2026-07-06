@@ -231,6 +231,16 @@ function mergeWithDefaultData(rawData: unknown): SiteData {
   };
 }
 
+async function readFileSiteData(): Promise<SiteData> {
+  try {
+    const file = await fs.readFile(dataFile, "utf8");
+    return mergeWithDefaultData(JSON.parse(file));
+  } catch (error) {
+    console.error("Error reading fallback site data:", error);
+    return defaultData;
+  }
+}
+
 export async function getSiteData(): Promise<SiteData> {
   noStore();
   try {
@@ -320,7 +330,7 @@ export async function getSiteData(): Promise<SiteData> {
     };
   } catch (error) {
     console.error("Error in getSiteData:", error);
-    return defaultData;
+    return readFileSiteData();
   }
 }
 
