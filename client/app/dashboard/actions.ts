@@ -1,8 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { mkdir, writeFile } from "fs/promises";
-import path from "path";
 import {
   getSiteData,
   saveSiteData,
@@ -11,6 +9,7 @@ import {
   type LinkItem,
   type ProjectItem,
   type CertificateItem,
+  type PublicThemeName,
 } from "@/lib/site-data";
 
 export type FormState = {
@@ -26,28 +25,54 @@ function fail(message: string): FormState {
   return { success: false, message };
 }
 
+function getSaveErrorMessage(error: unknown, fallback: string): string {
+  console.error(fallback, error);
+
+  if (error instanceof Error) {
+    if (error.message.includes("MONGODB_URI")) {
+      return "Database is not configured. Add MONGODB_URI in Render environment variables.";
+    }
+
+    if (
+      error.message.includes("ECONNREFUSED") ||
+      error.message.includes("ENOTFOUND") ||
+      error.message.includes("querySrv") ||
+      error.message.includes("timed out")
+    ) {
+      return "Database connection failed. Check MongoDB URI and Atlas network access.";
+    }
+  }
+
+  return fallback;
+}
+
 function buildContactLinks(items: LinkItem[]): LinkItem[] {
   return items.filter((item) => item.url.trim() !== "");
+}
+
+const validThemes: PublicThemeName[] = [
+  "midnight",
+  "ocean",
+  "emerald",
+  "rose",
+  "amber",
+  "violet",
+  "slate",
+  "crimson",
+  "forest",
+  "neon",
+];
+
+function normalizePublicTheme(value: string): PublicThemeName {
+  const theme = value.toLowerCase() as PublicThemeName;
+  return validThemes.includes(theme) ? theme : "midnight";
 }
 
 async function saveUploadedImage(file: File): Promise<string> {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(uploadDir, { recursive: true });
-
-  const ext =
-    file.name.split(".").pop()?.toLowerCase() ||
-    file.type.split("/").pop()?.toLowerCase() ||
-    "png";
-
-  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-  const filePath = path.join(uploadDir, fileName);
-
-  await writeFile(filePath, buffer);
-
-  return `/uploads/${fileName}`;
+  return `data:${file.type || "image/png"};base64,${buffer.toString("base64")}`;
 }
 
 export async function updateProfile(
@@ -99,8 +124,8 @@ export async function updateProfile(
     revalidatePath("/");
 
     return ok("Profile updated successfully.");
-  } catch {
-    return fail("Failed to update profile.");
+  } catch (error) {
+    return fail(getSaveErrorMessage(error, "Failed to update profile."));
   }
 }
 
@@ -140,8 +165,8 @@ export async function updateCareer(
     revalidatePath("/");
 
     return ok("Career updated successfully.");
-  } catch {
-    return fail("Failed to save career details.");
+  } catch (error) {
+    return fail(getSaveErrorMessage(error, "Failed to save career details."));
   }
 }
 
@@ -182,8 +207,8 @@ export async function updateExperience(
     revalidatePath("/");
 
     return ok("Experience updated successfully.");
-  } catch {
-    return fail("Failed to save experience.");
+  } catch (error) {
+    return fail(getSaveErrorMessage(error, "Failed to save experience."));
   }
 }
 
@@ -219,8 +244,8 @@ export async function updateSkills(
     revalidatePath("/");
 
     return ok("Skills updated successfully.");
-  } catch {
-    return fail("Failed to save skills.");
+  } catch (error) {
+    return fail(getSaveErrorMessage(error, "Failed to save skills."));
   }
 }
 
@@ -259,8 +284,8 @@ export async function updateProjects(
     revalidatePath("/");
 
     return ok("Projects updated successfully.");
-  } catch {
-    return fail("Failed to save projects.");
+  } catch (error) {
+    return fail(getSaveErrorMessage(error, "Failed to save projects."));
   }
 }
 
@@ -299,8 +324,8 @@ export async function updateCertificates(
     revalidatePath("/");
 
     return ok("Certificates updated successfully.");
-  } catch {
-    return fail("Failed to save certificates.");
+  } catch (error) {
+    return fail(getSaveErrorMessage(error, "Failed to save certificates."));
   }
 }
 
@@ -310,12 +335,13 @@ export async function updateThemeSettings(
 ): Promise<FormState> {
   try {
     const data = await getSiteData();
-    const publicTheme = String(formData.get("publicTheme") ?? "amber");
+    const publicTheme = normalizePublicTheme(String(formData.get("publicTheme") ?? ""));
 
     await saveSiteData({
       ...data,
       settings: {
         ...data.settings,
+        publicTheme,
       },
     });
 
@@ -323,7 +349,7 @@ export async function updateThemeSettings(
     revalidatePath("/");
 
     return { success: true, message: "Theme updated successfully." };
-  } catch {
-    return { success: false, message: "Failed to save theme." };
+  } catch (error) {
+    return { success: false, message: getSaveErrorMessage(error, "Failed to save theme.") };
   }
 }
