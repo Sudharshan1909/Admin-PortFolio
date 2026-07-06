@@ -246,7 +246,7 @@ export async function getSiteData(): Promise<SiteData> {
   try {
     await dbConnect();
     const profileDoc = (await Profile.findOne().lean()) as any;
-    const careerDoc = (await Career.findOne().lean()) as any;
+    const careerDoc = (await Career.findOne().sort({ updatedAt: -1, createdAt: -1 }).lean()) as any;
     const certificateDocs = (await Certificate.find().lean()) as any[];
     const experienceDocs = (await Experience.find().lean()) as any[];
     const projectDocs = (await Project.find().lean()) as any[];

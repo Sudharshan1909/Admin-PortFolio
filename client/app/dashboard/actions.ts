@@ -11,6 +11,8 @@ import {
   type CertificateItem,
   type PublicThemeName,
 } from "@/lib/site-data";
+import dbConnect from "@/lib/dbConnect";
+import Career from "@/models/Career";
 
 export type FormState = {
   success: boolean;
@@ -154,14 +156,12 @@ export async function updateCareer(
       }
     }
 
-    const data = await getSiteData();
-
-    await saveSiteData({
-      ...data,
-      careerEducation,
-    });
+    await dbConnect();
+    await Career.deleteMany({});
+    await Career.create({ careerEducation });
 
     revalidatePath("/dashboard/career");
+    revalidatePath("/career");
     revalidatePath("/");
 
     return ok("Career updated successfully.");

@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 export async function GET() {
   try {
     await dbConnect();
-    const item = await Career.findOne().sort({ createdAt: -1 }).lean();
+    const item = await Career.findOne().sort({ updatedAt: -1, createdAt: -1 }).lean();
     return NextResponse.json(item, { status: 200 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to fetch career details";
@@ -25,11 +25,8 @@ export async function POST(req: NextRequest) {
       ? body.careerEducation
       : [];
 
-    const item = await Career.findOneAndUpdate(
-      {},
-      { careerEducation },
-      { new: true, upsert: true }
-    );
+    await Career.deleteMany({});
+    const item = await Career.create({ careerEducation });
 
     return NextResponse.json(item, { status: 200 });
   } catch (error) {
