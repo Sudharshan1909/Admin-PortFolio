@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "./auth";
 import { NextResponse } from "next/server";
 
 const adminEmail = process.env.ADMIN_EMAIL?.toLowerCase();
