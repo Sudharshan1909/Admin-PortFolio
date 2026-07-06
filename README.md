@@ -91,36 +91,6 @@ This project can be deployed on platforms such as:
 - Netlify
 - Render
 
-After deployment, replace the demo link at the top of this README with your live project URL.
-
-## Screenshots
-
-Add screenshots after deployment to make the repository more professional.
-
-Suggested images:
-
-- Public homepage
-- Admin dashboard overview
-- Settings page with theme selection
-- Mobile view of the public profile
-
-## Roadmap
-
-Potential future improvements:
-
-- Authentication for admin access
-- Rich text editing for profile sections
-- Database integration
-- Image upload support
-- Analytics dashboard
-- Theme preview before save
-- SEO enhancements
-
-## Contributing
-
-This is a personal portfolio/admin project. External copying, redistribution,
-or reuse is not permitted without written permission.
-
 ## License
 
 This project is proprietary and all rights are reserved. See [LICENSE](LICENSE)
@@ -128,12 +98,7 @@ for details.
 
 ## Contact
 
-Replace the placeholders below with your actual details:
-
 - GitHub: [github.com/sudharshan1909](https://github.com/sudharshan1909)
 - LinkedIn: [linkedin.com/sudharshan1909](https://linkedin.com/sudharshan1909)
 - Email: itzmesudharshan@gmail.com
 
-## Notes
-
-This README is intentionally written as a professional project template so the live demo link, repository URL, screenshots, and contact details can be updated easily after deployment.
