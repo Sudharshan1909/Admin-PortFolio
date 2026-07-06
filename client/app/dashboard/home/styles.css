@@ -1,16 +1,65 @@
+.dashboard-home-page {
+  overflow-x: hidden;
+}
 
-h1.mt-2.text-4xl.font-semibold.tracking-tight {
-    display: inline-block;
-    width: 250px;
+.dashboard-home-page :where(input, textarea, select) {
+  min-width: 0;
+}
+
+.profile-media-panel {
+  min-width: 0;
+}
+
+.profile-image {
+  width: min(13rem, 100%);
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.profile-file-input {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .dashboard-home-page {
+    padding-inline: 0;
   }
 
-input.block.w-full.rounded-2xl.border.border-white\/10.bg-black\/20.px-4.py-3.text-sm.text-white.file\:mr-4.file\:rounded-xl.file\:border-0.file\:bg-white.file\:px-4.file\:py-2.file\:text-sm.file\:font-medium.file\:text-black {
-    display: inline-block;
-    width: 330px;
-    
-}
-img.h-40.w-32.rounded-2xl.border.border-white\/10.object-cover {
-    margin-left: 20px;
-    height: 200px;
-    width: 200px;
+  .dashboard-home-page form {
+    padding: 1rem;
+    border-radius: 1.5rem;
+  }
+
+  .profile-media-grid {
+    gap: 1.25rem;
+  }
+
+  .profile-media-panel {
+    display: grid;
+    justify-items: center;
+  }
+
+  .profile-media-panel > :first-child {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .profile-image {
+    width: min(11rem, 72vw);
+  }
+
+  .profile-file-input {
+    width: 100%;
+    font-size: 0.875rem;
+  }
+
+  .profile-file-input::file-selector-button {
+    margin-bottom: 0.5rem;
+    max-width: 100%;
+  }
+
+  .dashboard-home-page input:not([type="file"]),
+  .dashboard-home-page textarea {
+    font-size: 1rem;
+  }
 }

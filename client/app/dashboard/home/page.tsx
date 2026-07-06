@@ -18,22 +18,22 @@ export default async function DashboardHomeDetailsPage() {
 
   return (
     <>
-      <div className="p-4 sm:p-6 lg:p-8">
+      <div className="dashboard-home-page p-4 sm:p-6 lg:p-8">
         
           <DashboardForm action={updateProfile}>
             <div className="grid gap-8">
-              <div className="grid gap-6 md:grid-cols-[220px_1fr]">
+              <div className="profile-media-grid grid gap-6 md:grid-cols-[220px_1fr]">
 
-                <div className="space-y-4">
+                <div className="profile-media-panel space-y-4">
                   <DashboardHeader title={data.profile.name} subtitle="Welcome" />
                   {data.profile.image ? (
                     <img
                       src={data.profile.image}
                       alt={data.profile.name}
-                      className="h-40 w-32 rounded-2xl border border-(--profile-border) object-cover"
+                      className="profile-image h-40 w-32 rounded-2xl border border-(--profile-border) object-cover"
                     />
                   ) : (
-                    <div className="flex h-40 w-32 items-center justify-center rounded-2xl border border-(--profile-border) bg-(--profile-bg) text-sm text-white/40">
+                    <div className="profile-image flex h-40 w-32 items-center justify-center rounded-2xl border border-(--profile-border) bg-(--profile-bg) text-sm text-white/40">
                       No image
                     </div>
                   )}
@@ -48,7 +48,7 @@ export default async function DashboardHomeDetailsPage() {
                     type="file"
                     name="imageFile"
                     accept="image/*"
-                    className="block w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black"
+                    className="profile-file-input block w-full rounded-2xl border border-(--profile-border) bg-(--profile-bg) px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black"
                   />
                 </div>
               </div>
