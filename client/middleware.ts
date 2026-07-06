@@ -17,7 +17,7 @@ export default auth((req) => {
     }
 
     if (!email || email !== adminEmail) {
-      return NextResponse.redirect(new URL("/unauthorized", req.url));
+      return NextResponse.redirect(new URL("/unauthorized?reason=unauthorized", req.url));
     }
   }
 

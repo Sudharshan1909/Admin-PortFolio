@@ -1,43 +1,50 @@
-"use client";
-
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 
-export default function UnauthorizedPage() {
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error");
+type UnauthorizedPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+    reason?: string;
+  }>;
+};
 
-  const message =
-    error === "AccessDenied"
-      ? "You do not have access to the admin profile."
-      : "Authentication failed. Please use the authorized admin account.";
+export default async function UnauthorizedPage({
+  searchParams,
+}: UnauthorizedPageProps) {
+  const params = await searchParams;
+  const isUnauthorized =
+    params?.error === "AccessDenied" || params?.reason === "unauthorized";
+
+  if (!isUnauthorized) {
+    redirect("/login");
+  }
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-zinc-950 px-4 text-white">
-      <div className="w-full max-w-lg rounded-3xl border border-red-500/20 bg-white/5 p-8 text-center shadow-2xl backdrop-blur">
-        <p className="text-sm uppercase tracking-[0.35em] text-red-300/70">
+      <div className="w-full max-w-2xl rounded-3xl border border-red-500/25 bg-white/5 px-6 py-10 text-center shadow-2xl shadow-black/30 backdrop-blur sm:px-12 sm:py-14">
+        <p className="text-sm uppercase tracking-[0.45em] text-red-300/75">
           Access Denied
         </p>
 
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight">
-          {message}
+        <h1 className="mx-auto mt-7 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+          Authentication failed. Please use the authorized admin account.
         </h1>
 
-        <p className="mt-4 text-white/60">
+        <p className="mt-6 text-base text-white/60 sm:text-lg">
           Sign in only with the approved admin Gmail account.
         </p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/"
-            className="rounded-2xl border border-white/10 px-5 py-3 text-sm text-white/80 transition hover:bg-white/10"
+            className="rounded-2xl border border-white/10 px-7 py-3 text-sm text-white/80 transition hover:bg-white/10"
           >
             Go Home
           </Link>
 
           <Link
             href="/login"
-            className="rounded-2xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/90"
+            className="rounded-2xl bg-white px-7 py-3 text-sm font-medium text-black transition hover:bg-white/90"
           >
             Try Again
           </Link>
