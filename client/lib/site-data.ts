@@ -246,7 +246,7 @@ export async function getSiteData(): Promise<SiteData> {
   try {
     await dbConnect();
     const profileDoc = (await Profile.findOne().lean()) as any;
-    const careerDoc = (await Career.findOne().sort({ updatedAt: -1, createdAt: -1 }).lean()) as any;
+    const careerDocs = (await Career.find().sort({ createdAt: -1 }).lean()) as any[];
     const certificateDocs = (await Certificate.find().lean()) as any[];
     const experienceDocs = (await Experience.find().lean()) as any[];
     const projectDocs = (await Project.find().lean()) as any[];
@@ -268,15 +268,37 @@ export async function getSiteData(): Promise<SiteData> {
         : defaultData.profile.contactLinks,
     };
 
-    const careerEducation = Array.isArray(careerDoc?.careerEducation)
-      ? careerDoc.careerEducation.map((item: any) => ({
+    const legacyCareerEntries = Array.isArray(careerDocs?.[0]?.careerEducation)
+      ? careerDocs[0].careerEducation
+      : [];
+
+    const careerEducation = Array.isArray(careerDocs) && careerDocs.length > 0
+      ? careerDocs.flatMap((doc: any) => {
+          if (Array.isArray(doc?.careerEducation)) {
+            return doc.careerEducation.map((item: any) => ({
+              institution: normalizeString(item?.institution),
+              degree: normalizeString(item?.degree),
+              from: normalizeString(item?.from),
+              to: normalizeString(item?.to),
+              cgpa: normalizeString(item?.cgpa),
+            }));
+          }
+
+          return {
+            institution: normalizeString(doc?.institution),
+            degree: normalizeString(doc?.degree),
+            from: normalizeString(doc?.from),
+            to: normalizeString(doc?.to),
+            cgpa: normalizeString(doc?.cgpa),
+          };
+        })
+      : legacyCareerEntries.map((item: any) => ({
           institution: normalizeString(item?.institution),
           degree: normalizeString(item?.degree),
           from: normalizeString(item?.from),
           to: normalizeString(item?.to),
           cgpa: normalizeString(item?.cgpa),
-        }))
-      : defaultData.careerEducation;
+        }));
 
     const experience = Array.isArray(experienceDocs)
       ? experienceDocs.map((item: any) => ({
@@ -353,12 +375,11 @@ export async function saveSiteData(data: SiteData): Promise<void> {
       { upsert: true, new: true }
     );
 
-    // 2. Career (upsert single document)
-    await Career.findOneAndUpdate(
-      {},
-      { careerEducation: data.careerEducation },
-      { upsert: true, new: true }
-    );
+    // 2. Career (delete all and re-create as one document per entry)
+    await Career.deleteMany({});
+    if (data.careerEducation && data.careerEducation.length > 0) {
+      await Career.insertMany(data.careerEducation);
+    }
 
     // 3. Certificates (delete all and re-create)
     await Certificate.deleteMany({});

@@ -158,7 +158,9 @@ export async function updateCareer(
 
     await dbConnect();
     await Career.deleteMany({});
-    await Career.create({ careerEducation });
+    if (careerEducation.length > 0) {
+      await Career.insertMany(careerEducation);
+    }
 
     revalidatePath("/dashboard/career");
     revalidatePath("/career");
